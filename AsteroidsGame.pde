@@ -1,25 +1,9 @@
-Spaceship bob = new Spaceship();
-Star[] nightSky = new Star[200];
+Spaceship boop = new Spaceship();
+Star[] nightsky = new Star[300];
+ArrayList <Asteroid> tim = new ArrayList <Asteroid>();
+ArrayList <SmallAsteroid> timmy = new ArrayList <SmallAsteroid>();
+ArrayList <Bullet> pew = new ArrayList <Bullet>(); 
 int x,y;
-public void setup() 
-{
-  size(500,500);
-  for(int i = 0; i < nightSky.length; i++){
-    nightSky[i] = new Star();
-  }
-  frameRate(120);
-}
-public void draw() 
-{
-  background(0);
-  for(int i = 0; i < nightSky.length; i++){
-    nightSky[i].show();
-  }
-  bob.move();
-  bob.show();
-  noStroke();
-  fill(255);
-}
 public void mouseClicked()
 {
   x = mouseX;
@@ -31,42 +15,95 @@ public void mouseClicked()
   if(key == 'n'){
     ellipse(x,y,10,10);
   }
-}   
+}
+public void setup() 
+{
+  size(600,600);
+  frameRate(100);
+  for(int i = 0; i < nightsky.length; i++){
+    nightsky[i] = new Star();
+  }
+  for(int i = 0; i < 50; i++){
+    tim.add(new Asteroid());
+  }
+}
+
+public void draw() 
+{
+  background(0);
+  noStroke();
+  fill(255);
+  boop.move();
+  boop.show();
+  for(int i = 0; i < nightsky.length; i++){
+    nightsky[i].draw();
+  }
+  for(int i = 0; i < tim.size(); i++){
+    if(dist((float)boop.getX(), (float)boop.getY(), tim.get(i).getX(), tim.get(i).getY()) < 30){
+      timmy.get(i).move();
+      timmy.get(i).show();
+      tim.remove(i);
+      break;
+    }
+    else{
+      tim.get(i).move();
+      tim.get(i).show();
+    }
+  }
+  for(int i = 0; i < pew.size(); i++){
+    pew.get(i).move();
+    pew.get(i).show();
+  }
+  for(int i = 0; i < tim.size(); i++){
+    for(int j = 0; j < pew.size(); j++){
+      if(dist((float)pew.get(j).getX(), (float)pew.get(j).getY(), (float)tim.get(i).getX(), (float)tim.get(i).getY()) < 15){
+        pew.remove(j);
+        tim.remove(i);
+        break;
+      }
+    }
+  }
+}
+
 public void keyPressed(){
   //turn
   if(key == 'a' || keyCode == LEFT){
-    bob.turn(-15);
+    boop.turn(-15);
   }
-  if(key == 'd' || keyCode == RIGHT){
-    bob.turn(15);
+  else if(key == 'd' || keyCode == RIGHT){
+    boop.turn(15);
   }
   //move
   if(key == 'w' || keyCode == UP){
-    bob.accelerate(.5);
+    boop.accelerate(1);
   }
   if(key == 's' || keyCode == DOWN){
-    bob.accelerate(-.2);
+    boop.accelerate(-1);
   }
   //limit speed
-  if(bob.myXspeed > 10){
-    bob.myXspeed = 10;
+  if(boop.myXspeed > 25){
+    boop.myXspeed = 25;
   }
-  if(bob.myXspeed < -10){
-    bob.myXspeed = -10;
+  if(boop.myXspeed < -25){
+    boop.myXspeed = -25;
   }
-  if(bob.myYspeed > 10){
-    bob.myYspeed = 10;
+  if(boop.myYspeed > 25){
+    boop.myYspeed = 25;
   }
-  if(bob.myYspeed < -10){
-    bob.myYspeed = -10;
+  if(boop.myYspeed < -25){
+    boop.myYspeed = -25;
   }
   //random place
   if(key == 'r'){
-    bob.hyperspace();
+    boop.hyperspace();
   }
   //stop
   if(key == 'q'){
-    bob.myXspeed = 0;
-    bob.myYspeed = 0;
+    boop.myXspeed = 0;
+    boop.myYspeed = 0;
+  }
+  //pew pew
+  if(key == ' '){
+    pew.add(new Bullet(boop));
   }
 }
