@@ -23,7 +23,7 @@ public void setup()
   for(int i = 0; i < nightsky.length; i++){
     nightsky[i] = new Star();
   }
-  for(int i = 0; i < 50; i++){
+  for(int i = 0; i < 10; i++){
     tim.add(new Asteroid());
   }
 }
