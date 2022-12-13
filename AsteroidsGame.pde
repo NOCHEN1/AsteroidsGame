@@ -40,8 +40,6 @@ public void draw()
   }
   for(int i = 0; i < tim.size(); i++){
     if(dist((float)boop.getX(), (float)boop.getY(), tim.get(i).getX(), tim.get(i).getY()) < 30){
-      timmy.get(i).move();
-      timmy.get(i).show();
       tim.remove(i);
       break;
     }
